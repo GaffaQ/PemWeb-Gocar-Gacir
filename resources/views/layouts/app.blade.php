@@ -33,6 +33,35 @@
         .table tbody td { vertical-align: middle; border-color: #f0f4f8; }
         .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--secondary); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.85rem; }
         .badge-pending { background: #6f42c1 !important; }
+
+        /* ── Animations ── */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        .page-content { animation: fadeIn 0.35s ease; }
+        .card { animation: fadeInUp 0.4s ease both; }
+        .card:nth-child(2) { animation-delay: 0.05s; }
+        .card:nth-child(3) { animation-delay: 0.10s; }
+        .card:nth-child(4) { animation-delay: 0.15s; }
+        .stat-card { animation: fadeInUp 0.45s ease both; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .stat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+        .col-md-3:nth-child(1) .stat-card { animation-delay: 0.05s; }
+        .col-md-3:nth-child(2) .stat-card { animation-delay: 0.10s; }
+        .col-md-3:nth-child(3) .stat-card { animation-delay: 0.15s; }
+        .col-md-3:nth-child(4) .stat-card { animation-delay: 0.20s; }
+        .table tbody tr { transition: background 0.15s ease; }
+        .table tbody tr:hover { background: #f0f5ff; }
+        .btn { transition: all 0.18s ease; }
+        .btn:hover { transform: translateY(-1px); }
+        .sidebar .nav-link { transition: all 0.2s ease; }
+        .alert { animation: fadeInUp 0.3s ease both; }
+        .page-link { transition: all 0.18s ease; }
+        .badge { transition: all 0.15s ease; }
     </style>
 </head>
 <body>
