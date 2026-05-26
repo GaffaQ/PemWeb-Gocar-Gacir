@@ -81,6 +81,11 @@
                             <a href="{{ route('books.show', $book) }}" class="btn btn-sm btn-outline-info" title="Detail">
                                 <i class="bi bi-eye"></i>
                             </a>
+                            @if(auth()->user()->isMember() && $book->stock > 0)
+                            <a href="{{ route('member.borrowings.create.book', $book) }}" class="btn btn-sm btn-outline-success" title="Pinjam Buku">
+                                <i class="bi bi-plus-circle"></i> Pinjam
+                            </a>
+                            @endif
                             <a href="{{ route('books.edit', $book) }}" class="btn btn-sm btn-outline-warning" title="Edit">
                                 <i class="bi bi-pencil"></i>
                             </a>

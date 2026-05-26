@@ -23,6 +23,7 @@
                 <div class="col-md-3">
                     <select name="status" class="form-select form-select-sm">
                         <option value="">Semua Status</option>
+                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>⏳ Menunggu Approval</option>
                         <option value="borrowed" {{ request('status') == 'borrowed' ? 'selected' : '' }}>Dipinjam</option>
                         <option value="returned" {{ request('status') == 'returned' ? 'selected' : '' }}>Dikembalikan</option>
                         <option value="overdue" {{ request('status') == 'overdue' ? 'selected' : '' }}>Terlambat</option>
@@ -43,7 +44,7 @@
                 </thead>
                 <tbody>
                     @forelse($borrowings as $b)
-                    <tr>
+                    <tr class="{{ $b->status === 'overdue' ? 'table-danger' : ($b->status === 'pending' ? 'table-light' : '') }}">
                         <td class="text-muted small">{{ $loop->iteration }}</td>
                         <td>
                             <div class="fw-semibold small">{{ $b->member->user->name }}</div>
@@ -55,34 +56,39 @@
                             {{ $b->due_date->format('d M Y') }}
                         </td>
                         <td>
-                            @if($b->status === 'borrowed')
-                                <span class="badge bg-primary">Dipinjam</span>
-                            @elseif($b->status === 'returned')
-                                <span class="badge bg-success">Dikembalikan</span>
-                            @else
-                                <span class="badge bg-danger">Terlambat</span>
-                            @endif
+                            @if($b->status === 'borrowed') <span class="badge bg-primary">Dipinjam</span>
+                            @elseif($b->status === 'returned') <span class="badge bg-success">Dikembalikan</span>
+                            @elseif($b->status === 'pending') <span class="badge" style="background:#6f42c1">⏳ Pending</span>
+                            @else <span class="badge bg-danger">Terlambat</span> @endif
                         </td>
                         <td class="text-center">
-                            <a href="{{ route('borrowings.show', $b) }}" class="btn btn-sm btn-outline-info" title="Detail">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            @if($b->status !== 'returned')
-                                <a href="{{ route('borrowings.return.form', $b) }}" class="btn btn-sm btn-outline-success" title="Kembalikan">
-                                    <i class="bi bi-arrow-return-left"></i>
+                            @if($b->status === 'pending')
+                                <form action="{{ route('admin.borrowings.approve', $b->id) }}" method="POST" class="d-inline">@csrf
+                                    <button class="btn btn-sm btn-success" title="Setujui"><i class="bi bi-check-lg"></i></button>
+                                </form>
+                                <form action="{{ route('admin.borrowings.reject', $b->id) }}" method="POST" class="d-inline">@csrf
+                                    <button class="btn btn-sm btn-danger" title="Tolak" onclick="return confirm('Tolak request ini?')"><i class="bi bi-x-lg"></i></button>
+                                </form>
+                            @else
+                                <a href="{{ route('borrowings.show', $b) }}" class="btn btn-sm btn-outline-info" title="Detail">
+                                    <i class="bi bi-eye"></i>
                                 </a>
-                                <a href="{{ route('borrowings.edit', $b) }}" class="btn btn-sm btn-outline-warning" title="Edit">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
+                                @if($b->status !== 'returned')
+                                    <a href="{{ route('borrowings.return.form', $b) }}" class="btn btn-sm btn-outline-success" title="Kembalikan">
+                                        <i class="bi bi-arrow-return-left"></i>
+                                    </a>
+                                    <a href="{{ route('borrowings.edit', $b) }}" class="btn btn-sm btn-outline-warning" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                @endif
+                                <form action="{{ route('borrowings.destroy', $b) }}" method="POST" class="d-inline"
+                                    onsubmit="return confirm('Yakin hapus data ini?')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
                             @endif
-                            <form action="{{ route('borrowings.destroy', $b) }}" method="POST" class="d-inline"
-                                onsubmit="return confirm('Yakin ingin menghapus data peminjaman ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
                         </td>
                     </tr>
                     @empty
