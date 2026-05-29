@@ -33,6 +33,54 @@ class AdminMemberController extends Controller
     }
 
     /**
+     * Menampilkan form tambah anggota baru oleh Admin
+     */
+    public function create()
+    {
+        return view('admin.members.create');
+    }
+
+    /**
+     * Menyimpan data anggota baru yang didaftarkan oleh Admin
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name'       => 'required|min:3|max:100',
+            'email'      => 'required|email|unique:users,email',
+            'phone'      => 'nullable|max:20',
+            'birth_date' => 'nullable|date',
+            'address'    => 'nullable|max:500',
+        ]);
+
+        // 1. Buat User record dengan role member dan password acak
+        $user = User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => bcrypt(\Illuminate\Support\Str::random(16)),
+            'role'     => 'member',
+        ]);
+
+        // 2. Generate kode member unik berurutan MBR-XXXXX
+        // Cari id member terakhir
+        $lastMemberId = Member::max('id') ?? 0;
+        $nextId = $lastMemberId + 1;
+        $memberCode = 'MBR-' . str_pad($nextId, 5, '0', STR_PAD_LEFT);
+
+        // 3. Buat Member record
+        Member::create([
+            'user_id'     => $user->id,
+            'member_code' => $memberCode,
+            'phone'       => $request->phone,
+            'birth_date'  => $request->birth_date,
+            'address'     => $request->address,
+            'status'      => 'active',
+        ]);
+
+        return redirect()->route('admin.members.index')->with('success', 'Anggota baru berhasil didaftarkan dengan kode ' . $memberCode . '!');
+    }
+
+    /**
      * Detail member beserta riwayat peminjaman
      */
     public function show(Member $member)

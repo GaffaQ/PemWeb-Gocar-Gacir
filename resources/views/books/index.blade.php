@@ -55,9 +55,7 @@
                         <th>Kategori</th>
                         <th>Stok</th>
                         <th>Tahun</th>
-                        @if(auth()->user()->isAdmin())
                         <th class="text-center">Aksi</th>
-                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -76,29 +74,22 @@
                             </span>
                         </td>
                         <td class="small">{{ $book->year ?? '-' }}</td>
-                        @if(auth()->user()->isAdmin())
                         <td class="text-center">
                             <a href="{{ route('books.show', $book) }}" class="btn btn-sm btn-outline-info" title="Detail">
-                                <i class="bi bi-eye"></i>
+                                <i class="bi bi-eye"></i> Detail
                             </a>
-                            @if(auth()->user()->isMember() && $book->stock > 0)
-                            <a href="{{ route('member.borrowings.create.book', $book) }}" class="btn btn-sm btn-outline-success" title="Pinjam Buku">
-                                <i class="bi bi-plus-circle"></i> Pinjam
-                            </a>
-                            @endif
                             <a href="{{ route('books.edit', $book) }}" class="btn btn-sm btn-outline-warning" title="Edit">
-                                <i class="bi bi-pencil"></i>
+                                <i class="bi bi-pencil"></i> Edit
                             </a>
                             <form action="{{ route('books.destroy', $book) }}" method="POST" class="d-inline"
                                 onsubmit="return confirm('Yakin ingin menghapus buku ini?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
-                                    <i class="bi bi-trash"></i>
+                                    <i class="bi bi-trash"></i> Hapus
                                 </button>
                             </form>
                         </td>
-                        @endif
                     </tr>
                     @empty
                     <tr>

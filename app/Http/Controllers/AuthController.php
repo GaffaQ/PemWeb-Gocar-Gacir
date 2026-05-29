@@ -22,44 +22,22 @@ class AuthController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'))) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'role' => 'admin'])) {
             $request->session()->regenerate();
             return redirect()->route('dashboard')->with('success', 'Login berhasil!');
         }
 
-        return back()->withErrors(['email' => 'Email atau password salah.'])->withInput();
+        return back()->withErrors(['email' => 'Akses ditolak. Email atau password salah, atau Anda bukan Admin.'])->withInput();
     }
 
     public function showRegister()
     {
-        return view('auth.register');
+        return redirect()->route('login')->with('error', 'Registrasi mandiri dinonaktifkan.');
     }
 
     public function register(Request $request)
     {
-        $request->validate([
-            'name'     => 'required|min:3|max:100',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-        ]);
-
-        $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
-            'role'     => 'member',
-        ]);
-
-        // Buat kode member otomatis
-        $memberCode = 'MBR-' . str_pad($user->id, 5, '0', STR_PAD_LEFT);
-        Member::create([
-            'user_id'     => $user->id,
-            'member_code' => $memberCode,
-            'status'      => 'active',
-        ]);
-
-        Auth::login($user);
-        return redirect()->route('dashboard')->with('success', 'Registrasi berhasil! Selamat datang, ' . $user->name . '!');
+        return redirect()->route('login')->with('error', 'Registrasi mandiri dinonaktifkan.');
     }
 
     public function logout(Request $request)

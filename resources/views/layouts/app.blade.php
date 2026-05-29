@@ -76,32 +76,19 @@
         <i class="bi bi-grid-1x2-fill"></i> Dashboard
     </a>
 
-    @if(auth()->user()->isAdmin())
-        <div class="nav-section">Pengelolaan</div>
-        <a href="{{ route('books.index') }}" class="nav-link {{ request()->routeIs('books.*') ? 'active' : '' }}">
-            <i class="bi bi-book-fill"></i> Kelola Buku
-        </a>
-        <a href="{{ route('categories.index') }}" class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}">
-            <i class="bi bi-tags-fill"></i> Kategori
-        </a>
-        <a href="{{ route('borrowings.index') }}" class="nav-link {{ request()->routeIs('borrowings.*') ? 'active' : '' }}">
-            <i class="bi bi-arrow-left-right"></i> Peminjaman
-        </a>
-        <a href="{{ route('admin.members.index') }}" class="nav-link {{ request()->routeIs('admin.members.*') ? 'active' : '' }}">
-            <i class="bi bi-people-fill"></i> Kelola Anggota
-        </a>
-    @else
-        <div class="nav-section">Perpustakaan</div>
-        <a href="{{ route('catalog') }}" class="nav-link {{ request()->routeIs('catalog*') ? 'active' : '' }}">
-            <i class="bi bi-search"></i> Katalog Buku
-        </a>
-        <a href="{{ route('member.borrowings.create') }}" class="nav-link {{ request()->routeIs('member.borrowings.create*') ? 'active' : '' }}">
-            <i class="bi bi-plus-circle-fill"></i> Pinjam Buku
-        </a>
-        <a href="{{ route('member.borrowings.index') }}" class="nav-link {{ request()->routeIs('member.borrowings.*') ? 'active' : '' }}">
-            <i class="bi bi-card-list"></i> Peminjaman Saya
-        </a>
-    @endif
+    <div class="nav-section">Pengelolaan</div>
+    <a href="{{ route('books.index') }}" class="nav-link {{ request()->routeIs('books.*') ? 'active' : '' }}">
+        <i class="bi bi-book-fill"></i> Kelola Buku
+    </a>
+    <a href="{{ route('categories.index') }}" class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}">
+        <i class="bi bi-tags-fill"></i> Kategori
+    </a>
+    <a href="{{ route('borrowings.index') }}" class="nav-link {{ request()->routeIs('borrowings.*') ? 'active' : '' }}">
+        <i class="bi bi-arrow-left-right"></i> Peminjaman
+    </a>
+    <a href="{{ route('admin.members.index') }}" class="nav-link {{ request()->routeIs('admin.members.*') ? 'active' : '' }}">
+        <i class="bi bi-people-fill"></i> Kelola Anggota
+    </a>
 
     <div class="sidebar-user">
         <div style="padding: 0.75rem 1rem; background: rgba(255,255,255,0.08); border-radius: 8px; margin-bottom: 0.5rem;">

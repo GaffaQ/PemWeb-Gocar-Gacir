@@ -6,7 +6,12 @@
 <div class="card">
     <div class="card-header">
         <div class="row align-items-center g-2">
-            <div class="col"><h6 class="mb-0 fw-bold"><i class="bi bi-people-fill me-2 text-primary"></i>Daftar Anggota</h6></div>
+            <div class="col d-flex align-items-center gap-3">
+                <h6 class="mb-0 fw-bold"><i class="bi bi-people-fill me-2 text-primary"></i>Daftar Anggota</h6>
+                <a href="{{ route('admin.members.create') }}" class="btn btn-sm btn-primary py-1 px-3">
+                    <i class="bi bi-person-plus-fill me-1"></i> Tambah Anggota
+                </a>
+            </div>
             <div class="col-auto">
                 <form class="d-flex gap-2" method="GET">
                     <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari nama / email / kode..." value="{{ request('search') }}" style="width:250px">

@@ -95,9 +95,8 @@
                         </form>
 
                         <hr class="my-4">
-                        <p class="text-center text-muted mb-0">
-                            Belum punya akun?
-                            <a href="{{ route('register') }}" class="text-decoration-none fw-semibold" style="color: #2d6a9f;">Daftar Sekarang</a>
+                        <p class="text-center text-muted mb-0 small">
+                            Portal Internal Khusus Staf & Admin Perpustakaan
                         </p>
                     </div>
                 </div>

@@ -41,25 +41,11 @@ Route::middleware('auth')->group(function () {
 
         // Manajemen Member (admin)
         Route::get('/admin/members', [AdminMemberController::class, 'index'])->name('admin.members.index');
+        Route::get('/admin/members/create', [AdminMemberController::class, 'create'])->name('admin.members.create');
+        Route::post('/admin/members', [AdminMemberController::class, 'store'])->name('admin.members.store');
         Route::get('/admin/members/{member}', [AdminMemberController::class, 'show'])->name('admin.members.show');
         Route::post('/admin/members/{member}/toggle-status', [AdminMemberController::class, 'toggleStatus'])->name('admin.members.toggle');
         Route::post('/admin/borrowings/{borrowing}/approve', [AdminMemberController::class, 'approveBorrowing'])->name('admin.borrowings.approve');
         Route::post('/admin/borrowings/{borrowing}/reject', [AdminMemberController::class, 'rejectBorrowing'])->name('admin.borrowings.reject');
-    });
-
-    // ============================================================
-    // MEMBER ROUTES
-    // ============================================================
-    // Katalog (semua user)
-    Route::get('/catalog', [BookController::class, 'index'])->name('catalog');
-    Route::get('/catalog/{book}', [BookController::class, 'show'])->name('catalog.show');
-
-    // Peminjaman member
-    Route::middleware('role:member')->group(function () {
-        Route::get('/my-borrowings', [MemberBorrowingController::class, 'index'])->name('member.borrowings.index');
-        Route::get('/my-borrowings/request', [MemberBorrowingController::class, 'create'])->name('member.borrowings.create');
-        Route::get('/my-borrowings/request/{book}', [MemberBorrowingController::class, 'create'])->name('member.borrowings.create.book');
-        Route::post('/my-borrowings', [MemberBorrowingController::class, 'store'])->name('member.borrowings.store');
-        Route::get('/my-borrowings/{id}', [MemberBorrowingController::class, 'show'])->name('member.borrowings.show');
     });
 });
